@@ -1,5 +1,7 @@
 package com.example.springBootProject.dto;
 
+import com.example.springBootProject.entity.Article;
+
 public class ArticleForm {
     private String title; // 제목 받을 필드
     private String content; // 내용을 받을 필드
@@ -17,5 +19,9 @@ public class ArticleForm {
                 "title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 '}';
+    }
+
+    public Article toEntity() {
+        return new Article(null, title, content);
     }
 }
