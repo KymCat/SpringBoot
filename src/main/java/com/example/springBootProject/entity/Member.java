@@ -7,19 +7,19 @@ import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
 
-// DTO -> Entity 로 변환하기 위한 클래스
+@Entity
 @AllArgsConstructor
 @ToString
-@Entity // 엔티티 선언
-public class Article {
-    @Id // PrimaryKey
-    @GeneratedValue // 자동 1씩 증가...
+public class Member {
+    @Id
+    @GeneratedValue
     private Long id;
 
     @Column
-    private String title;
+    private String email;
 
     @Column
-    private String content;
+    private String password;
+
 
 }
