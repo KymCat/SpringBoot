@@ -5,10 +5,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 // DTO -> Entity 로 변환하기 위한 클래스
 @AllArgsConstructor
+@NoArgsConstructor // 매개변수 없는 기본 생성자
 @ToString
 @Entity // 엔티티 선언
 public class Article {
