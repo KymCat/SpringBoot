@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.ArrayList;
+
 
 @Slf4j // 로그기능
 @Controller
@@ -51,6 +53,16 @@ public class ArticleController {
         return "articles/show";
     }
 
+    @GetMapping("/articles")
+    public String index(Model model) {
+        // 1. 모든 데이터 가져오기 => List로 받아옴
+        ArrayList<Article> articleEntityList = articleRepository.findAll(); // 다운캐스팅
 
+        // 2. 모델에 데이터 등록하기
+        model.addAttribute("articleList", articleEntityList);
+
+        // 3. 뷰 페이지 설정하기
+        return "articles/index";
+    }
 
 }
