@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -13,6 +14,7 @@ import lombok.ToString;
 @NoArgsConstructor // 매개변수 없는 기본 생성자
 @ToString
 @Entity // 엔티티 선언
+@Getter
 public class Article {
     @Id // PrimaryKey
     @GeneratedValue // 자동 1씩 증가...
