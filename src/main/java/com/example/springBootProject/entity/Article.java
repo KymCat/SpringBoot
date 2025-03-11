@@ -23,4 +23,12 @@ public class Article {
     @Column
     private String content;
 
+    // 기존데이터(target)에 수정할 데이터(article) 저장
+    public void patch(Article article) {
+        if (article.getTitle() != null)
+            this.title = article.title;
+
+        if (article.getContent() != null)
+            this.content = article.content;
+    }
 }
