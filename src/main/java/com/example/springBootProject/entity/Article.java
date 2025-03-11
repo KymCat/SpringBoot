@@ -1,9 +1,6 @@
 package com.example.springBootProject.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +14,7 @@ import lombok.ToString;
 @Getter
 public class Article {
     @Id // PrimaryKey
-    @GeneratedValue // 자동 1씩 증가...
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // 자동 1씩 증가... 전략 : DB에서알아서
     private Long id;
 
     @Column
