@@ -97,9 +97,10 @@ public class ArticleController {
         log.info(target.toString());
 
         // 2. 대상 엔티티 삭제하기
-        if (target != null)
+        if (target != null) {
             articleRepository.delete(target);
             rttr.addFlashAttribute("msg", "삭제됐습니다!"); // (key, value)
+        }
         // 3. 결과 페이지로 리다이렉트하기
         return "redirect:/articles";
     }
