@@ -3,6 +3,7 @@ package com.example.springBootProject.api;
 import com.example.springBootProject.dto.ArticleForm;
 import com.example.springBootProject.entity.Article;
 import com.example.springBootProject.repository.ArticleRepository;
+import com.example.springBootProject.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,57 +17,46 @@ import java.util.List;
 @RestController
 public class ArticleApiController {
     private final ArticleRepository articleRepository;
+    private final ArticleService articleService;
 
     // GET : 게시글전체
     @GetMapping("/api/articles")
     public List<Article> index() {
-        return articleRepository.findAll();
+        return articleService.index();
     }
+
     // GET : 단일게시글
     @GetMapping("/api/articles/{id}")
     public Article show(@PathVariable Long id) {
-        return articleRepository.findById(id).orElse(null);
+        return articleService.show(id);
     }
 
     // POST : 게시글 작성
     @PostMapping("/api/articles")
-    public Article create(@RequestBody ArticleForm form) {
-        Article article = form.toEntity();
-        return articleRepository.save(article);
+    public ResponseEntity<Article> create(@RequestBody ArticleForm form) {
+        Article created = articleService.create(form);
+        return (created != null) ?
+                ResponseEntity.status(HttpStatus.OK).body(created) :
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
+
     // PATCH : 단일 게시글 수정
     @PatchMapping("api/articles/{id}")
     public ResponseEntity<Article> update(@PathVariable Long id, @RequestBody ArticleForm form) {
-        // 1. DTO -> 엔티티 변환하기
-        Article article = form.toEntity();
-        log.info("id : {}, article: {}", id, article.toString());
 
-        // 2. 타깃 조회하기
-        Article target = articleRepository.findById(id).orElse(null);
-
-        // 3. 잘못된 요청 처리하기
-        if (target == null || id != article.getId()) {
-            // 400 : 잘못된 요청응답
-            log.info("잘못된 요청, id : {}, article : {}",id, article.toString());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
-
-        // 4. 업데이트 및 정상 응답(200)하기
-        target.patch(article);
-        Article updated = articleRepository.save(target);
-        return ResponseEntity.status(HttpStatus.OK).body(updated);
+        Article updated = articleService.update(id, form);
+        return (updated != null) ?
+                ResponseEntity.status(HttpStatus.OK).body(updated) :
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     // DELETE
     @DeleteMapping("/api/articles/{id}")
     public ResponseEntity<Article> delete(@PathVariable Long id) {
-        Article target = articleRepository.findById(id).orElse(null);
-        if (target == null) {
-            log.info("잘못된 요청, id : {}, 해댱 id 없음",id);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
+        Article deleted = articleService.delete(id); // null : 삭제 Error
 
-        articleRepository.delete(target);
-        return ResponseEntity.status(HttpStatus.OK).build(); // build() == body(null) : body가없은 ReponseEntity 객체생성
+        return (deleted != null) ?
+                ResponseEntity.status(HttpStatus.OK).build() :
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
 }
