@@ -117,6 +117,7 @@ class ArticleServiceTest {
     }
 
     @Test
+    @Transactional
     void update_성공_존재하는_ID와_TITLE만_있는_DTO_입력() {
 
         // 1. 예상 데이터
@@ -134,6 +135,7 @@ class ArticleServiceTest {
     }
 
     @Test
+    @Transactional
     void update_실패_존재하지_않는_ID의_DTO_입력() {
 
         // 1. 예상 데이터
@@ -148,6 +150,37 @@ class ArticleServiceTest {
 
         // 3. 비교 및 검증
         assertEquals(expected, article);
+    }
 
+
+    @Test
+    @Transactional
+    void delete_성공_존재하는_ID_입력() {
+
+        // 1. 예상 데이터
+        Long id = 1L;
+        Article expected = new Article(id, "가가가가", "1111");
+
+        // 2. 실제 데이터
+        Article article = articleService.delete(id);
+
+        // 3. 비교 및 검증
+        assertEquals(expected.toString(), article.toString());
+
+    }
+
+    @Test
+    @Transactional
+    void delete_실패_존재하지_않는_ID_입력() {
+
+        // 1. 예상 데이터
+        Long id = 4L;
+        Article expected = null;
+
+        // 2. 실제 데이터
+        Article article = articleService.delete(id);
+
+        // 3. 비교 및 검증
+        assertEquals(expected, article);
     }
 }
