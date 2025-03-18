@@ -5,6 +5,7 @@ import com.example.springBootProject.entity.Article;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -63,7 +64,8 @@ class ArticleServiceTest {
     }
 
     @Test
-    void create_성공_title과_content만_있는_dto_입력() {
+    @Transactional
+    void create_성공_TITLE과_CONTENT만_있는_DTO_입력() {
 
         // 1. 예상 데이터
         String title = "라라라라";
@@ -79,7 +81,8 @@ class ArticleServiceTest {
     }
 
     @Test
-    void create_실패_ID가_포함된_dto_입력() {
+    @Transactional
+    void create_실패_ID가_포함된_DTO_입력() {
 
         // 1. 예상 데이터
         Long id = 4L;
@@ -93,5 +96,58 @@ class ArticleServiceTest {
 
         // 3. 비교 및 검증
         assertEquals(expected, article);
+    }
+
+    @Test
+    @Transactional
+    void update_성공_존재하는_ID와_TITLE_CONTENT가_있는_DTO_입력() {
+
+        // 1. 예상 데이터
+        Long id = 1L;
+        String title = "가스가스";
+        String content = "1212";
+        ArticleForm dto = new ArticleForm(id,title,content);
+        Article expected = new Article(id,title,content);
+
+        // 2. 실제 데이터
+        Article article = articleService.update(id, dto);
+
+        // 3. 비교 및 검증
+        assertEquals(expected.toString(), article.toString());
+    }
+
+    @Test
+    void update_성공_존재하는_ID와_TITLE만_있는_DTO_입력() {
+
+        // 1. 예상 데이터
+        Long id = 1L;
+        String title = "가나가나";
+        String content = "1111";
+        ArticleForm dto = new ArticleForm(id,title,null);
+        Article expected = new Article(id,title,content);
+
+        // 2. 실제 데이터
+        Article article = articleService.update(id, dto);
+
+        // 3. 비교 및 검증
+        assertEquals(expected.toString(), article.toString());
+    }
+
+    @Test
+    void update_실패_존재하지_않는_ID의_DTO_입력() {
+
+        // 1. 예상 데이터
+        Long id = 4L;
+        String title = "라라라라";
+        String content = "4444";
+        ArticleForm dto = new ArticleForm(id,title,content);
+        Article expected = null;
+
+        // 2. 실제 데이터
+        Article article = articleService.update(id, dto);
+
+        // 3. 비교 및 검증
+        assertEquals(expected, article);
+
     }
 }
