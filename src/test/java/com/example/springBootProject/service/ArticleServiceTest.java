@@ -32,4 +32,32 @@ class ArticleServiceTest {
         // 3. 예상 데이터와 실제 데이터 비교해 검증하기
         assertEquals(expected.toString(), articles.toString());
     }
+
+    @Test
+    void show_성공_존재하는_ID_입력() {
+
+        // 1. 예상데이터
+        Long id = 1L;
+        Article expected = new Article(id, "가가가가", "1111");
+
+        // 2. 실제 데이터
+        Article article = articleService.show(id);
+
+        //3. 비교 및 검증
+        assertEquals(expected.toString(), article.toString());
+    }
+
+    @Test
+    void show_실패() {
+
+        // 1. 예상데이터
+        Long id = -1L;
+        Article expected = null;
+
+        // 2. 실제 데이터
+        Article article = articleService.show(id);
+
+        //3. 비교 및 검증
+        assertEquals(expected, article);
+    }
 }
