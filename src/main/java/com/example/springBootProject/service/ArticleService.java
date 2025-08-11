@@ -16,16 +16,18 @@ import java.util.List;
 public class ArticleService {
     private final ArticleRepository articleRepository;
 
-    public List<Article> index() { // 게시물 전체 조회
+    // 게시물 전체 조회
+    public List<Article> index() {
         return articleRepository.findAll();
     }
 
-    public Article show(Long id) { // 게시물 번호 조회
+    // 게시물 번호 조회
+    public Article show(Long id) {
         return articleRepository.findById(id).orElse(null);
     }
 
-
-    public Article create(ArticleForm form) { // 게시글 저장
+    // 게시글 저장
+    public Article create(ArticleForm form) {
         Article article = form.toEntity();
         if (article.getId() != null) // 게시글 요청 Body => id(primary key)가 포함되어 있을 경우
             return null;
@@ -33,7 +35,8 @@ public class ArticleService {
         return articleRepository.save(article);
     }
 
-    public Article update(Long id, ArticleForm form) { // 게시글 수정
+    // 게시글 수정
+    public Article update(Long id, ArticleForm form) {
         // 1. DTO -> 엔티티 변환하기
         Article article = form.toEntity();
         log.info("id : {}, article: {}", id, article.toString());
@@ -53,7 +56,8 @@ public class ArticleService {
         return articleRepository.save(target);
     }
 
-    public Article delete(Long id) { // 게시글 삭제
+    // 게시글 삭제
+    public Article delete(Long id) {
         Article target = articleRepository.findById(id).orElse(null);
         if (target == null) {
             log.info("잘못된 요청, id : {}, 해댱 id 없음",id);
