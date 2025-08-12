@@ -35,13 +35,13 @@ public class Comment {
         if (!dto.getArticleId().equals(article.getId()))
             throw new IllegalArgumentException("댓글 생성 실패: 게시글의 id가 잘못됐습니다.");
 
+        // 엔티티 생성 및 반환
         return new Comment(
                 dto.getId(),
                 article,
                 dto.getNickname(),
                 dto.getBody()
         );
-        // 엔티티 생성 및 반환
     }
 
     // 댓글 수정
